@@ -1,0 +1,24 @@
+#!/bin/sh
+
+/usr/local/cpanel/cpkeyclt
+
+echo "Note: cPanel Pro requires cPanel 8.7.0 build 19 or later to be"
+echo "installed!";
+
+echo -n "Press enter to continue."
+read undef
+
+if [ "`/usr/local/cpanel/cpanel -F | grep pro`" = "" ]; then
+	echo "Sorry, you must get a license for cPanel Pro before installing it.";
+	exit
+fi
+
+tar -x -f pkg.tar.gz -z -v -C /usr/local
+
+/scripts/ensurerpm ImageMagick
+
+/usr/local/cpanel/bin/leechprotectinstall
+
+/scripts/updatenow
+
+/scripts/buildeximconf

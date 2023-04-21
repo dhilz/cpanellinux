@@ -1,0 +1,94 @@
+<cpanel setvar="headerimg=../images/topcrontab.gif">
+<cpanel setvar="dprefix=../">
+<cpanel include="../stdheader.html">
+<script>
+
+function imagescale(w,h) {
+	document.images.fmfile.width = w;
+	document.images.fmfile.height = h;
+}
+
+
+
+
+var hdim = <cpanel ImageManager="hdimension($FORM{'dir'},$FORM{'file'})">;
+var wdim = <cpanel ImageManager="hdimension($FORM{'dir'},$FORM{'file'})">;
+
+function checkhpdim() {
+	if (document.sff.aspect.checked == true) {
+		document.sff.widthpercent.value = document.sff.heightpercent.value;
+	}
+	document.sff.width.value = (wdim * (document.sff.widthpercent.value/100));
+	document.sff.height.value = (hdim * (document.sff.heightpercent.value/100));
+	imagescale(document.sff.width.value,document.sff.height.value);
+}
+function checkwpdim() {
+	if (document.sff.aspect.checked == true) {
+		document.sff.heightpercent.value = document.sff.widthpercent.value;
+	}
+	document.sff.width.value = (wdim * (document.sff.widthpercent.value/100));
+	document.sff.height.value = (hdim * (document.sff.heightpercent.value/100));
+	imagescale(document.sff.width.value,document.sff.height.value);
+}
+
+function checkhdim() {
+	if (document.sff.aspect.checked == true) {
+		document.sff.height.value = (document.sff.width.value * (hdim/wdim));
+	}
+	document.sff.widthpercent.value = ((document.sff.width.value/wdim)*100);
+	document.sff.heightpercent.value = ((document.sff.height.value/hdim)*100);
+	imagescale(document.sff.width.value,document.sff.height.value);
+}
+function checkwdim() {
+	if (document.sff.aspect.checked == true) {
+		document.sff.width.value = (document.sff.height.value * (wdim/hdim));
+	}
+	document.sff.heightpercent.value = ((document.sff.height.value/hdim)*100);
+	document.sff.widthpercent.value = ((document.sff.width.value/wdim)*100);
+	imagescale(document.sff.width.value,document.sff.height.value);
+}
+</script>
+
+<form name=sff action="doscale.html">
+<font class="big">Image Manager</font>
+<br><br>
+Image Scaler<br><blockquote>
+We will be scaling <cpanel print="$FORM{'dir'}">/<cpanel print="$FORM{'file'}">.
+<br><br>
+Current Dimensions: <cpanel ImageManager="dimensions($FORM{'dir'},$FORM{'file'})"><br>
+New Dimensions: <input type=text name=width
+value="<cpanel ImageManager="wdimension($FORM{'dir'},$FORM{'file'})">"
+size=3 onChange="checkhdim();"> x <input type=text name=height 
+value="<cpanel ImageManager="hdimension($FORM{'dir'},$FORM{'file'})">" size=3 
+onChange="checkwdim();">  Percent:
+<input type=text name=widthpercent size=3 value=100
+onChange="checkwpdim();">% x <input type=text name=heightpercent size=3 
+onChange="checkhpdim();"
+value=100>%<br>
+<input type=checkbox name=aspect value="1" checked> Keep Aspect Ratio<br>
+<br>
+<table border=1><tr><td>
+<cpanel Fileman="viewfile($FORM{'dir'},$FORM{'file'},1)">
+</td></tr></table>
+<br>
+<input type=checkbox name=retain value="1" checked> Retain a copy of the old image as
+<input size=70 type=text name=oldimage value="<cpanel print="$FORM{'dir'}">/old-<cpanel print="$FORM{'file'}">"><br><br>
+<input type=hidden name=dir value="<cpanel print="$FORM{'dir'}">">
+<input type=hidden name=file value="<cpanel print="$FORM{'file'}">">
+
+<input type=submit value="Scale Image">
+<input type=button value="Reset Dimensions" onClick="document.sff.reset();imagescale(document.sff.width.value,document.sff.height.value);">
+</form>
+
+<script>
+	imagescale(document.sff.width.value,document.sff.height.value);
+</script>
+
+</blockquote>
+<br>
+<center>
+<b>[</b> <a href="images.html">Go Back</a><b> ]</b>
+</center>
+<cpanel include="../stdfooter.html">
+
+

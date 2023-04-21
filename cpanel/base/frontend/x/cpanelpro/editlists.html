@@ -1,0 +1,26 @@
+<cpanel setvar="headerimg=../images/tools.gif">
+<cpanel setvar="dprefix=../">
+<cpanel include="../stdheader.html">
+<font class="big">BoxTrapper</font>
+<br><br>
+
+
+<center>Boxtrapper Lists for <b><cpanel print="$FORM{'account'}"></b><br><br>
+
+<table border=1 width=96%>
+<tr>
+	<td align=center><br><a href="whitelist.html?emaildir=<cpanel BoxTrapper="getboxconfdir($FORM{'account'})">&account=<cpanel print="$FORM{'account'}">">Edit White List</a><br><br></td>
+	<td align=center><br><a href="ignorelist.html?emaildir=<cpanel BoxTrapper="getboxconfdir($FORM{'account'})">&account=<cpanel print="$FORM{'account'}">">Edit Ignore List</a><br><br></td>
+	<td align=center><br><a href="blacklist.html?emaildir=<cpanel BoxTrapper="getboxconfdir($FORM{'account'})">&account=<cpanel print="$FORM{'account'}">">Edit Black List</a><br><br></td> </tr>
+</table>
+	
+
+
+<div align="center">
+<br><br>
+<b>[</b> <a href="manage.html?account=<cpanel print="$FORM{'account'}">">Go Back</a><b> ]</b>
+</div>
+<cpanel include="../stdfooter.html">
+                                                                                                                           
+                                                                                                                           
+                                                                                                                           

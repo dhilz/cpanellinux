@@ -1,0 +1,24 @@
+#!/usr/bin/perl
+
+use bytes;
+if (-e "/var/cpanel/leechprotectpass") {
+	chmod(0600,"/var/cpanel/leechprotectpass");
+	open(HP,"/var/cpanel/leechprotectpass");
+	chomp($hp = <HP>);
+	close(HP);
+	print "$hp";
+	exit;
+} else {
+	open(RANDOM,"/dev/urandom");
+	read RANDOM,$random,4096;
+	close(RANDOM);
+	$random =~ s/\W//g;
+	$random = substr($random,0,8);
+	open(HP,">/var/cpanel/leechprotectpass");
+	chmod(0600,"/var/cpanel/leechprotectpass");
+	print HP $random;
+	close(HP);
+	print $random;
+	exit;
+}
+no bytes;

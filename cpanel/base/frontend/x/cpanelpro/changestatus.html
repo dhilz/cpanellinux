@@ -1,0 +1,14 @@
+<cpanel setvar="headerimg=../images/tools.gif">
+<cpanel setvar="dprefix=../">
+<cpanel include="../stdheader.html">
+<font class="big">BoxTrapper</font>
+<br><br>
+
+BoxTrapper has been <cpanel BoxTrapper="changestatus($FORM{'account'},$FORM{'action'})"> on the account
+<cpanel print="$FORM{'account'}">.
+
+<div align="center">
+<br><br>
+<b>[</b> <a href="manage.html?account=<cpanel print="$FORM{'account'}">">Go Back</a><b> ]</b>
+</div>
+<cpanel include="../stdfooter.html">

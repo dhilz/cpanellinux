@@ -1,0 +1,23 @@
+<cpanel setvar="headerimg=../images/topcrontab.gif">
+<cpanel setvar="dprefix=../">
+<cpanel include="../stdheader.html">
+<font class="big">Image Manager</font>
+<br><br>
+Image Scaler<br><blockquote>
+
+<cpanel ImageManager="thumbnail($FORM{'dir'},$FORM{'widthpercent'},$FORM{'heightpercent'})">
+<br><br>
+
+Your images have been thumbnailed into
+<a target=_blank href="../files/list.html?dir=<cpanel print="$FORM{'dir'}/thumbnails">">
+<cpanel print="$FORM{'dir'}">/thumbnails/tn_*</a>
+
+</blockquote>
+
+<br>
+<center>
+<b>[</b> <a href="images.html">Go Back</a><b> ]</b>
+</center>
+<cpanel include="../stdfooter.html">
+
+

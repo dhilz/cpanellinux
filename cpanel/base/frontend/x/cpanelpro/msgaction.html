@@ -1,0 +1,19 @@
+<cpanel setvar="headerimg=../images/tools.gif">
+<cpanel setvar="dprefix=../">
+<cpanel include="../stdheader.html">
+<font class="big">BoxTrapper</font>
+<br><br>
+
+
+<center>Boxtrapper Queue for <b><cpanel print="$FORM{'account'}"></b><br><br></center>
+
+The requested action was been completed: <cpanel BoxTrapper="messageaction($FORM{'account'},$FORM{'t'},$FORM{'q'},$FORM{'action'})">
+
+
+
+
+<div align="center">
+<br><br>
+<b>[</b> <a href="showq.html?account=<cpanel print="$FORM{'account'}">&logdate=<cpanel print="$FORM{'t'}">">Go Back</a><b> ]</b>
+</div>
+<cpanel include="../stdfooter.html">

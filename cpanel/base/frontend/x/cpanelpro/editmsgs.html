@@ -1,0 +1,25 @@
+<cpanel setvar="headerimg=../images/tools.gif">
+<cpanel setvar="dprefix=../">
+<cpanel include="../stdheader.html">
+<font class="big">BoxTrapper</font>
+<br><br>
+
+
+<center>Boxtrapper Messages for <b><cpanel print="$FORM{'account'}"></b><br><br>
+
+<table cellpadding=5>
+
+<cpanel BoxTrapper="listmsgs($FORM{'account'},"editmsg.html","resetmsg.html")">
+
+</table>
+	
+
+
+<div align="center">
+<br><br>
+<b>[</b> <a href="manage.html?account=<cpanel print="$FORM{'account'}">">Go Back</a><b> ]</b>
+</div>
+<cpanel include="../stdfooter.html">
+                                                                                                                           
+                                                                                                                           
+                                                                                                                           

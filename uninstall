@@ -1,0 +1,14 @@
+#!/bin/sh
+
+echo "Are you sure (enter yes or no)?"
+
+read sure
+
+if [ "$sure" = "yes" ]; then
+
+	for file in `cat packing.lst`
+	do
+		rm -fv /usr/local/${file}
+	done
+
+fi

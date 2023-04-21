@@ -1,0 +1,26 @@
+#!/bin/sh
+
+rp=`/usr/local/cpanel/bin/leechprotectpass`
+mh=`grep ^host /root/.my.cnf | awk -F= '{ print $2 }'`
+
+
+if [ "$mh" != "" ]; then
+        gh=`hostname` 
+else
+	gh="localhost"
+fi
+
+if [ "$mh" = "" ]; then
+        mh="localhost"
+fi
+
+
+sed -e "s/__MYSQLPASS__/$rp/g" -e  "s/__MYSQLHOST__/$mh/g"  -e  "s/__MYSQLGRANTHOST__/$gh/g" \
+/usr/local/cpanel/etc/leechprotect.sql.in > \
+/usr/local/cpanel/etc/leechprotect.sql
+chmod 600 /usr/local/cpanel/etc/leechprotect.sql
+
+
+
+mysql -f < /usr/local/cpanel/etc/leechprotect.sql 2>/dev/null
+

@@ -1,0 +1,26 @@
+<cpanel setvar="headerimg=../images/tools.gif">
+<cpanel setvar="dprefix=../">
+<cpanel include="../stdheader.html">
+<font class="big">BoxTrapper</font>
+<br><br>
+
+
+<center>Configure Boxtrapper for <b><cpanel print="$FORM{'account'}"></b><br><br></center>
+<center>
+
+<form action="saveconf.html" method=POST>
+<table>
+<tr><td>Email addresses going to this account (comma seperated list)</td><td><input type=text name=froms value="<cpanel BoxTrapper="showemails($FORM{'account'})">"></td></td>
+<tr><td>How many days logs and messages in the queue should be kept</td><td><input type=text name=queue value="<cpanel BoxTrapper="showqueuetime($FORM{'account'})">"></td></td>
+</table>
+<input type=hidden name=account value="<cpanel print="$FORM{'account'}">">
+<input type=submit value=Save>
+</form>
+</center>
+
+
+<div align="center">
+<br><br>
+<b>[</b> <a href="manage.html?account=<cpanel print="$FORM{'account'}">">Go Back</a><b> ]</b>
+</div>
+<cpanel include="../stdfooter.html">

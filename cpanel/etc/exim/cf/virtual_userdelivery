@@ -1,0 +1,20 @@
+local_boxtrapper_delivery:
+  driver = pipe
+  command = /usr/local/cpanel/bin/boxtrapper "${local_part}"
+  user = $local_part
+  group = mail
+  log_output = true
+  current_directory = "/tmp"
+  return_fail_output = true
+  return_path_add = false
+
+virtual_boxtrapper_userdelivery:
+  driver = pipe
+  command = /usr/local/cpanel/bin/boxtrapper "${local_part}@${domain}"
+  user = "${lookup{$domain}lsearch* {/etc/userdomains}{$value}}"
+  group = mail
+  log_output = true
+  current_directory = "/tmp"
+  return_fail_output = true
+  return_path_add = false
+

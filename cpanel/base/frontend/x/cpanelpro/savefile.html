@@ -1,0 +1,14 @@
+<cpanel setvar="headerimg=../images/toperrorpages.gif">
+<cpanel setvar="dprefix=../">
+<cpanel include="../stdheader.html">
+          
+<font class="big">Saved!</font><br>
+<cpanel Fileman="fmsavefile($FORM{'dir'},$FORM{'file'},$FORM{'page'})">
+<br><br>
+<center>
+<b>[</b> <a href="manage.html?account=<cpanel print="$FORM{'account'}">">Go Back</a><b> ]</b>
+</center>
+<br><br>     
+      
+          
+<cpanel include="../stdfooter.html">

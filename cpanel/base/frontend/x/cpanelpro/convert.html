@@ -1,0 +1,26 @@
+<cpanel setvar="headerimg=../images/topcrontab.gif">
+<cpanel setvar="dprefix=../">
+<cpanel include="../stdheader.html">
+<font class="big">Image Manager</font>
+<br><br>
+Image Converter<br><blockquote>
+We will be converting <cpanel print="$FORM{'dir'}">/<cpanel print="$FORM{'file'}">.
+<br><br>
+
+<form action="doconvert.html">
+<select name=newtype>
+<option value=png>Portable Network Graphic (png)</option>
+<option value=jpg>Jpeg (jpg)</option>
+<option value=gif>Gif (gif)</option>
+<option value=bmp>Bitmap (bmp)</option>
+</select>
+<input type=hidden name=target value="<cpanel print="$FORM{'dir'}">/<cpanel print="$FORM{'file'}">">
+<input type=submit value=Convert></form>
+</blockquote>
+<br>
+<center>
+<b>[</b> <a href="images.html">Go Back</a><b> ]</b>
+</center>
+<cpanel include="../stdfooter.html">
+
+

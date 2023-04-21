@@ -1,0 +1,81 @@
+<cpanel setvar="headerimg=../images/tools.gif">
+<cpanel setvar="dprefix=../">
+<cpanel include="../stdheader.html">
+<table><tr><td>
+<img src="images/leech.jpg"> <b>Leech protection is currently 
+<font color=#FF0000><cpanel LeechProtect="status($FORM{'dir'})"></font> on <cpanel print="$FORM{'dir'}"></b>
+
+<script>
+var defv = "<cpanel LeechProtect="setup($FORM{'dir'},email)">";
+function checkemail() {
+	if (document.leechform.email.value == "") {
+		document.leechform.emailcheck.checked = false;
+	} else {
+		document.leechform.emailcheck.checked = true;
+	}
+}
+function killemail() {
+	if (document.leechform.emailcheck.checked == false) {
+		document.leechform.email.value = "";
+	} else {
+		document.leechform.email.value = defv;
+	}
+
+}
+</script>
+
+
+</td></tr></table>
+<br><br>
+<b>Setup Leech Protection:</b>
+<form action="doleech.html" name=leechform method=POST>
+<input type=hidden name=dir value="<cpanel print="$FORM{'dir'}">">
+<table cellpadding=5>
+<tr>
+<td>Number of logins per username Allowed in a 2 hour period:</td>
+<td><input type=text name=numhits value="<cpanel LeechProtect="setup($FORM{'dir'},numhits)">" size=2></td>
+<td>Four is recommened
+as setting the number lower then 4 can cause suspension of legitimate users who have disconnected/reconnected to their ISP.</td>
+</tr>
+<tr>
+<td>Url to redirect leech users to:</td>
+<td><input type=text name=rurl size=60 value="<cpanel LeechProtect="setup($FORM{'dir'},url)">"></td>
+<td>You must choose a url outside of the leech protected area or the leech users will get a internal server error message.</td>
+</tr>
+<tr>
+<td colspan=2>
+<input type=checkbox name=emailcheck value=1 onChange="killemail();" <cpanel LeechProtect="setup($FORM{'dir'},email,checkbox)"> >
+Send Email Alert to <input type=text name=email size=30 onChange="checkemail();" value="<cpanel LeechProtect="setup($FORM{'dir'},email)">"></td><td>
+You will recieve an email at this address when leech protection is used to redirect users away from the site. **If you 
+choose not to disable an account you may recieve a lot of emails as you will get one per each attempt to access your site**.</td></tr>
+<tr>
+<td colspan=2>
+<input type=checkbox name=disableacct value=1 <cpanel LeechProtect="setup($FORM{'dir'},kill,checkbox)"> > Disable Compromised Accounts<br>
+</td><td>Users who trigger leech protection will have their account suspended if you are using standard basic 
+authentication.</td></tr>
+</table>
+<input type=submit value="Enable">
+<br><br>
+</form>
+<h2>Disable Leech Protection:</h2>
+<form action="delleech.html">
+<input type=hidden name=dir value="<cpanel print="$FORM{'dir'}">">
+<input type=submit value="Disable">
+</form>
+
+<br>
+<h2>Manage Users:</h2>
+If you are using third party software to add/remove users, you should
+have it use the password file: <i><cpanel LeechProtect="showpasswdfile($FORM{'dir'})"></i><br><br>
+<form action="../htaccess/dohtaccess.html">
+<input type=hidden name=dir value="<cpanel print="$FORM{'dir'}">">
+<input type=submit value="Manage Users">
+</form>
+
+<div align="center">
+<br><br>
+<b>[</b> <a href="leechprotect.html">Go Back</a><b> ]</b>
+</div>
+
+<cpanel include="../stdfooter.html">
+

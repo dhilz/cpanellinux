@@ -1,0 +1,24 @@
+<cpanel setvar="headerimg=../images/tools.gif">
+<cpanel setvar="dprefix=../">
+<cpanel include="../stdheader.html">
+<font class="big">BoxTrapper</font>
+<br><br>
+
+
+<center>Boxtrapper Log for <b><cpanel print="$FORM{'account'}"></b><br><br></center>
+<center>
+<table border=1 width=99%>
+	<tr><cpanel BoxTrapper="logcontrols($FORM{'logdate'},$FORM{'account'})"></tr>
+<tr>
+	<td align=left colspan=3><pre><cpanel BoxTrapper="showlog($FORM{'logdate'},$FORM{'account'})"></pre></td>
+
+</tr>
+</table>
+</center>
+
+
+<div align="center">
+<br><br>
+<b>[</b> <a href="manage.html?account=<cpanel print="$FORM{'account'}">">Go Back</a><b> ]</b>
+</div>
+<cpanel include="../stdfooter.html">

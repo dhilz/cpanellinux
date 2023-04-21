@@ -1,0 +1,24 @@
+<cpanel setvar="headerimg=../images/tools.gif">
+<cpanel setvar="dprefix=../">
+<cpanel include="../stdheader.html">
+
+
+<cpanel LeechProtect="enable($FORM{'dir'},$FORM{'numhits'},$FORM{'rurl'},$FORM{'email'},$FORM{'disableacct'})">
+   
+<font class="big">Leech Protection Enabled!</font>
+<br><br>
+Directory: <cpanel print="$FORM{'dir'}"><br>
+Number of logins per username Allowed: <cpanel LeechProtect="setup($FORM{'dir'},numhits)"><br>
+Leech Redirect Url: <cpanel LeechProtect="setup($FORM{'dir'},url)"><br>
+Leech Notifcation Email: <cpanel LeechProtect="setup($FORM{'dir'},email)"><br>
+
+<br><br>
+
+<center>
+                 
+<b>[</b>&nbsp;<a href = "leechprotect.html">Go
+                    Back</a>&nbsp;<b>]</b>
+</center>
+
+
+<cpanel include="../stdfooter.html">

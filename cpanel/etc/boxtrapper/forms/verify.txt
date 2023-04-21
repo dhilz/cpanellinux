@@ -1,0 +1,12 @@
+To: %email%
+Subject: Your email requires verification verify#%msgid%
+
+The message you sent requires that you verify that you 
+are a real live human being and not a spam source.
+
+To complete this verification, simply reply to this message and leave
+the subject line intact.
+
+The headers of the message sent from your address are show below:
+
+%headers%

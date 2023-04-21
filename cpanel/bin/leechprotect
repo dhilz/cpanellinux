@@ -1,0 +1,196 @@
+#!/usr/bin/perl
+
+BEGIN {
+   push(@INC,"/usr/local/cpanel");
+}
+
+$SIG{'CHLD'} = 'IGNORE';
+
+use SafeFile;
+use strict;
+
+$|=1;
+my $database='leechprotect';
+my $dbuser='leechprotect';
+my $dbpassword=`/usr/local/cpanel/bin/leechprotectpass`;
+my $dbhost='localhost';
+my $dbh;
+
+open(MYCNF,"/root/.my.cnf");
+while(<MYCNF>) {
+   chomp();
+   if (/^host=(\S+)/) {
+      $dbhost = $1;
+      last;
+   }
+}
+close(MYCNF);
+
+dbconnect();
+
+while(<>) {
+   chomp();
+   my($protectdir,$user,$ip,$maxips) = split(/:/, $_);;
+
+   if ($maxips eq "") { $maxips = 4; }
+
+   my $safeprotectdir = $protectdir;
+   $safeprotectdir =~ s/\//-/g;
+
+   my $dprotectdir = $dbh->quote($safeprotectdir);
+   my $duser= $dbh->quote($user);
+   my $dip = $dbh->quote($ip);
+
+   if (! ($dbh->do("LOCK TABLES hits WRITE;"))) {
+      eval { $dbh->disconnect(); };
+      dbconnect();
+      $dbh->do("LOCK TABLES hits WRITE;");
+   }
+
+   $dbh->do("replace into hits (dir,user,ip,htime) VALUES($dprotectdir,$duser,$dip,NOW());");
+   $dbh->do("delete from hits where htime < (NOW()-7200);");
+
+   $dbh->do("UNLOCK TABLES;");
+
+   my $ucq = $dbh->prepare("select COUNT(ip) from hits where dir=$dprotectdir and user=$duser;");
+
+   if ($ucq) {
+      $ucq->execute();
+      my $data=$ucq->fetchrow_arrayref();
+      my $usercount= $data->[0];	
+
+      if ($usercount > $maxips) { 
+         print "leech\n"; 
+
+
+         if (! fork()) {
+
+            my($email,$killcomp);
+            open(LPC,"${protectdir}/.leechprotect-conf");
+            while(<LPC>) {
+               if (/^email=(\S+)/) { $email = $1; }
+               if (/^kill=(\S+)/) { $killcomp = $1; }
+            }
+            close(LPC);
+
+            $protectdir =~ s/\.\.//g;
+            my $homedir = ${protectdir};
+            $homedir =~ s/public_html.*$//g;
+
+            my $htdir = ${protectdir};
+            $htdir =~ s/.*public_html\///g;
+
+            my ($protectuid,$protectgid) = getuserfromhomedir($homedir);
+
+            if ($protectuid < 100 || $protectgid < 100) { exit(); }
+
+            setuid($protectuid,$protectgid);
+
+            if ($email ne "") {
+               my $hostname = `hostname`;
+               chomp($hostname);
+               open(SENDMAIL,"|/usr/sbin/sendmail -t");
+               print SENDMAIL "To: ${email}\n";
+               print SENDMAIL "From: root\@${hostname}\n";
+               print SENDMAIL "Subject: Leech Protection Activated for account ${user} in /${htdir}\n\n";
+               if ($killcomp) {
+                  print SENDMAIL "The account has been suspended\n";
+               }
+               print SENDMAIL "Ip Address: ${ip}\n";
+               close(SENDMAIL);
+
+            }
+
+            if ($killcomp eq "1") {
+               if (! -l "${homedir}/.htpasswds/${htdir}/passwd" && -f "${homedir}/.htpasswds/${htdir}/passwd") {
+                  suspend_user("${homedir}/.htpasswds/${htdir}/passwd",$user);
+               }
+            }
+            exit ();
+         }
+      } else { 
+         print "safe\n"; 
+      }
+   } else {
+      print "NULL\n";
+   }
+}
+
+sub suspend_user {
+   my($file,$user) = @_;
+   my $htlock = SafeFile::safeopen(\*TDP,"${file}");
+   my $whtlock = SafeFile::safeopen(\*TDPO,">${file}.tmp");
+   my $skrest = 0;
+   while(<TDP>) {
+      if (!$skrest) {
+         chomp();
+         my($tuser,$tpass) = split(/:/, $_);
+         if ($tuser eq $user) {
+            $skrest = 1;
+            print TDPO "${tuser}:!!${tpass}\n";
+            next;
+         }
+         print TDPO;
+         print TDPO "\n";
+      } else {
+         print TDPO;
+
+      }
+   }
+   SafeFile::safeclose(\*TDPO,$whtlock);
+   SafeFile::safeclose(\*TDP,$htlock);
+
+   unlink "${file}";
+   rename "${file}.tmp","${file}";
+}
+
+sub getuserfromhomedir {
+   my ($homedir) = @_;
+   $homedir =~ s/\/$//g;
+   $homedir =~ s/\/\//\//g;
+ 
+   my(@PW);
+
+   while(@PW = getpwent()) {
+      next if ($PW[2] < 100);
+
+      $PW[7] =~ s/\/$//g;
+      $PW[7] =~ s/\/\//\//g;
+
+      if ($PW[7] eq $homedir) { return($PW[2],$PW[3]); }
+   }
+   return(0,0);
+}
+
+sub setuid {
+   my($uid,$gid) = @_;
+   if ( ! ($( = int($gid)) ) {
+      poperror("error setting gid [$(]");
+      popquit();
+   }
+   if ( ! ($) = "$gid $gid") ) {
+      poperror("error setting gid [$)]");
+      popquit();
+   }
+   if (! (($< = $uid) && ($> = $uid)) ) {
+      poperror("error setting uid ($uid) [$< $>]");
+      popquit();
+   }
+   return $uid;
+}
+
+
+sub dbconnect {
+
+   use DBD::mysql;
+   use Socket;
+   use Sys::Hostname;
+
+   $dbh =
+   DBI->connect("DBI:mysql:$database:$dbhost","$dbuser","$dbpassword");
+   unless ($dbh) {
+      die("Can't Connect");}
+   };
+
+
+

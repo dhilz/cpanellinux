@@ -1,0 +1,7 @@
+virtual_boxtraper_user:
+  driver = accept 
+  condition = "${perl{checkbx_deliver}{$domain}{$local_part}}"
+  require_files = "/usr/local/cpanel/bin/boxtrapper"
+  domains = lsearch;/etc/userdomains
+  retry_use_local_part
+  transport = virtual_boxtrapper_userdelivery

@@ -1,0 +1,37 @@
+CONNECT mysql;
+                                                                                                  
+REPLACE INTO user (host, user, password)
+    VALUES (
+        '__MYSQLGRANTHOST__',
+        'leechprotect',
+  -- IMPORTANT: Change this password!
+        password('__MYSQLPASS__')
+    );
+                                                                                                  
+REPLACE INTO db (host, db, user, select_priv, insert_priv, update_priv,
+                 delete_priv, create_priv, drop_priv)
+    VALUES (
+        '__MYSQLGRANTHOST__',
+        'leechprotect',
+        'leechprotect',
+        'Y', 'Y', 'Y', 'Y',
+        'Y', 'Y'
+    );
+
+FLUSH PRIVILEGES;
+
+CREATE DATABASE leechprotect;
+                                                                                                  
+CONNECT leechprotect;
+                                                                                                  
+CREATE TABLE hits (
+  dir char(255) NOT NULL,
+  user char(128) NOT NULL,
+  ip char(16) NOT NULL,
+  htime datetime NOT NULL,
+  PRIMARY KEY (dir,user,ip)
+) TYPE=MyISAM;
+
+GRANT ALL ON leechprotect.* TO leechprotect@__MYSQLGRANTHOST__;
+                                                                                                  
+

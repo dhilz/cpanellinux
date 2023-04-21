@@ -1,0 +1,55 @@
+#!/usr/bin/perl
+# cpanel4 - scripts        Copyright(c) 1997-2002 DarkORB Communications Inc.
+#                                 All rights Reserved.
+# nick@darkorb.net      http://cpanel.net
+# This code is subject to the cpanel license. Unauthorized copying is prohibited
+use Socket;
+
+
+BEGIN {
+        push(@INC,"/scripts");
+}
+
+
+use SafeFile;
+
+system("/usr/local/cpanel/bin/updateleechprotect");
+
+my $httpconf = find_httpconf();
+
+
+$httplock = SafeFile::safeopen(\*HTTPDCONF,"$httpconf");
+while(<HTTPDCONF>) {
+	if (/LeechProtect/) { 
+		SafeFile::safeclose(\*HTTPDCONF,$httplock);
+		exit(); 
+	}
+}
+SafeFile::safeclose(\*HTTPDCONF,$httplock);
+
+$httplock = SafeFile::safeopen(\*HTTPDCONF,">>$httpconf");
+
+print HTTPDCONF <<EOM;
+
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteMap LeechProtect prg:/usr/local/cpanel/bin/leechprotect
+</IfModule>
+
+EOM
+
+SafeFile::safeclose(\*HTTPDCONF,$httplock);
+
+system("killall -HUP httpd");
+
+                  
+sub find_httpconf {
+   my(@LOC,$loc);
+@LOC = ("/usr/local/apache/conf/httpd.conf",
+         "/etc/httpd/conf/httpd.conf");
+   foreach $loc (@LOC) {
+      if (-e $loc) { return $loc; }
+   }
+   return "";
+}
+

@@ -1,0 +1,10 @@
+To: %email%
+Subject: Re: %subject%
+
+This message is a reply to a boxtrapper verifcation message.
+
+No action is needed on your part.
+
+The headers of the message sent from your address are show below:
+
+%headers%

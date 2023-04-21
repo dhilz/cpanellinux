@@ -1,0 +1,31 @@
+<cpanel setvar="headerimg=../images/tools.gif">
+<cpanel setvar="dprefix=../">
+<cpanel include="../stdheader.html">
+<font class="big">BoxTrapper</font>
+<br><br>
+
+
+<center>Boxtrapper WhiteList for <b><cpanel print="$FORM{'account'}"></b><br><br></center>
+<center>
+The white list is a list of users or subjects that will be allowed into your inbox with a confirmation.  
+<br>
+<br>
+Examples:
+<table align=center border=1 bgcolor=#CCCCCC><tr><td align=left><pre><i>subject i love you
+from nick@nicedomain.org
+from dave@goodplace.com</i></pre></td></tr></table>
+<br><br>
+<form action="savefile.html" method=POST>
+<textarea name="page" cols=60 rows=40><cpanel Fileman="fmpushfile($FORM{'emaildir'},"white-list.txt")"></textarea><br>
+<input type=hidden name=account value="<cpanel print="$FORM{'account'}">">
+<input type=hidden name=dir value="<cpanel print="$FORM{'emaildir'}">">
+Save file as: <input type=text value="white-list.txt" name=file><br>
+<input type="submit" value="Save">
+</form>
+
+
+<div align="center">
+<br><br>
+<b>[</b> <a href="manage.html?account=<cpanel print="$FORM{'account'}">">Go Back</a><b> ]</b>
+</div>
+<cpanel include="../stdfooter.html">

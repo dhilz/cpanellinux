@@ -1,0 +1,43 @@
+<cpanel setvar="headerimg=../images/tools.gif">
+<cpanel setvar="dprefix=../">
+<cpanel include="../stdheader.html">
+<font class="big">BoxTrapper</font>
+<br><br>
+
+
+<center>Boxtrapper Queue for <b><cpanel print="$FORM{'account'}"></b><br><br></center>
+
+<br>
+<b>Choose an action:</b>
+
+<form action="msgaction.html">
+<input type=hidden name=account value="<cpanel print="$FORM{'account'}">">
+<input type=hidden name=q value="<cpanel print="$FORM{'q'}">">
+<input type=hidden name=t value="<cpanel print="$FORM{'t'}">">
+
+<input checked type=radio name=action value="deliverall,whitelist"> Whitelist and deliver all messages from this sender.<br>
+<input type=radio name=action value="deliver,whitelist"> Whitelist and deliver this message from its sender.<br>
+<input type=radio name=action value="deliverall"> Deliver all messages from this sender.<br>
+<input type=radio name=action value="deliver"> Deliver message.<br>
+<input type=radio name=action value="delete"> Delete this message from the queue.<br>
+<input type=radio name=action value="delete,blacklist"> Delete this message from the queue and blacklist the sender.<br>
+<input type=radio name=action value="delete,ignorelist"> Delete this message from the queue and the sender to the ignorelist.<br>
+<input type=submit value="Go">
+<br><br>
+<br>
+<b>Message Preview</b>
+<table border=1 width=100%>
+<tr>
+<td>
+<pre>
+<cpanel BoxTrapper="showmessage($FORM{'account'},$FORM{'t'},$FORM{'q'})">
+</pre>
+</td>
+</tr>
+</table>
+
+<div align="center">
+<br><br>
+<b>[</b> <a href="manage.html?account=<cpanel print="$FORM{'account'}">">Go Back</a><b> ]</b>
+</div>
+<cpanel include="../stdfooter.html">

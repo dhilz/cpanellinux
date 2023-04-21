@@ -1,0 +1,48 @@
+<cpanel setvar="headerimg=../images/topcrontab.gif">
+<cpanel setvar="dprefix=../">
+<cpanel include="../stdheader.html">
+<script>
+
+function checkhpdim() {
+	if (document.sff.aspect.checked == true) {
+		document.sff.widthpercent.value = document.sff.heightpercent.value;
+	}
+}
+function checkwpdim() {
+	if (document.sff.aspect.checked == true) {
+		document.sff.heightpercent.value = document.sff.widthpercent.value;
+	}
+}
+
+</script>
+
+<form name=sff action="dothumbdir.html">
+<font class="big">Image Manager</font>
+<br><br>
+Image Thumbnailer<br><blockquote>
+We will be thumbnailing images in <cpanel print="$FORM{'dir'}">/<cpanel print="$FORM{'file'}">.
+<br><br>
+Scale Percent:
+<input type=text name=widthpercent size=3 value=25
+onChange="checkwpdim();">% x <input type=text name=heightpercent size=3 
+onChange="checkhpdim();"
+value=25>%<br>
+<input type=checkbox name=aspect value="1" checked> Keep Aspect Ratio<br>
+<br>
+<input type=hidden name=dir value="<cpanel print="$FORM{'dir'}">/<cpanel print="$FORM{'file'}">">
+<input type=submit value="Thumbnail Images">
+<input type=button value="Reset Dimensions" onClick="document.sff.reset();">
+</form>
+
+<script>
+checkwpdim();
+</script>
+
+</blockquote>
+<br>
+<center>
+<b>[</b> <a href="images.html">Go Back</a><b> ]</b>
+</center>
+<cpanel include="../stdfooter.html">
+
+

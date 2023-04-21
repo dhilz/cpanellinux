@@ -1,0 +1,32 @@
+<cpanel setvar="headerimg=../images/tools.gif">
+<cpanel setvar="dprefix=../">
+<cpanel include="../stdheader.html">
+<font class="big">BoxTrapper</font>
+<br><br>
+
+
+<center>Boxtrapper for <b><cpanel print="$FORM{'account'}"></b><br><br>
+<form action=changestatus.html>
+Status: <cpanel BoxTrapper="status($FORM{'account'})">
+<input type=hidden name=account value="<cpanel print="$FORM{'account'}">">
+<cpanel BoxTrapper="statusbutton($FORM{'account'})">
+</form>
+</center><br><br>
+
+<table border=1 width=96%>
+<tr>
+	<td align=center><br><a href="conf.html?account=<cpanel print="$FORM{'account'}">">Configure Settings</a><br><br></td>
+	<td align=center><br><a href="editmsgs.html?account=<cpanel print="$FORM{'account'}">">Edit Confirmation Messages</a><br><br></td>
+	<td align=center><br><a href="editlists.html?account=<cpanel print="$FORM{'account'}">">Edit White/Black/Ignore List</a><br><br></td>
+	<td align=center><br><a href="showlog.html?account=<cpanel print="$FORM{'account'}">">Review Log</a><br><br></td>
+	<td align=center><br><a href="showq.html?account=<cpanel print="$FORM{'account'}">">Review Queue</a><br><br></td>
+</tr>
+</table>
+	
+
+
+<div align="center">
+<br><br>
+<b>[</b> <a href="../index.html">Go Back</a><b> ]</b>
+</div>
+<cpanel include="../stdfooter.html">

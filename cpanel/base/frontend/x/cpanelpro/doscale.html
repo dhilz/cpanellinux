@@ -1,0 +1,23 @@
+<cpanel setvar="headerimg=../images/topcrontab.gif">
+<cpanel setvar="dprefix=../">
+<cpanel include="../stdheader.html">
+<font class="big">Image Manager</font>
+<br><br>
+Image Scaler<br><blockquote>
+
+<cpanel ImageManager="scale($FORM{'dir'},$FORM{'file'},$FORM{'oldimage'},$FORM{'width'},$FORM{'height'},$FORM{'retain'})">
+
+Your image 
+<a href="../files/showfile.html?dir=<cpanel print="$FORM{'dir'}">&file=<cpanel print="$FORM{'file'}">" target="_blank">
+<cpanel print="$FORM{'dir'}">/<cpanel print="$FORM{'file'}"></a>
+has been scaled to the new dimensions <cpanel print="$FORM{'width'}">x<cpanel print="$FORM{'height'}">.
+
+</blockquote>
+
+<br>
+<center>
+<b>[</b> <a href="images.html">Go Back</a><b> ]</b>
+</center>
+<cpanel include="../stdfooter.html">
+
+

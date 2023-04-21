@@ -1,0 +1,8 @@
+To: %email%
+Subject: Re: %subject%
+
+The user %acct% does not accept mail from your address.
+
+The headers of the message sent from your address are show below:
+
+%headers%
